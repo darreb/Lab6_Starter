@@ -23,7 +23,7 @@ async function init() {
   if (!fetchSuccessful) {
     console.log('Recipe fetch unsuccessful');
     return;
-  };
+  }
   // Add the first three recipe cards to the page
   createRecipeCards();
   // Make the "Show more" button functional
@@ -43,6 +43,24 @@ async function fetchRecipes() {
     // in the recipes folder and fetch them from there. You'll need to add their paths to the recipes array.
 
     // Part 1 Expose - TODO
+    for(const i of recipes){
+      fetch(i)
+      .then(response => response.json())
+      .then(data => {
+        recipeData[i] = data;
+        if(Object.keys(recipeData).length == recipes.length){
+          console.log("Fetch done ig");
+          resolve("Fetch Successful");
+        }
+      })
+      .catch((error) => {
+        return error
+      });
+    }
+    
+    
+    
+
   });
 }
 
@@ -54,6 +72,22 @@ function createRecipeCards() {
   // show any others you've added when the user clicks on the "Show more" button.
 
   // Part 1 Expose - TODO
+  let birthdayCake = document.createElement("recipe-card");
+  let ghostCookies = document.createElement("recipe-card");
+  let chocolateChip = document.createElement("recipe-card");
+
+
+  birthdayCake.data = recipeData['https://introweb.tech/assets/json/birthdayCake.json'];
+  ghostCookies.data = recipeData['https://introweb.tech/assets/json/ghostCookies.json'];
+  
+  
+  chocolateChip.data = recipeData['https://introweb.tech/assets/json/chocolateChip.json'];
+  
+  let main = document.getElementsByTagName('main')[0];
+  main.appendChild(ghostCookies);  
+  main.appendChild(birthdayCake);  
+  main.appendChild(chocolateChip);
+    
 }
 
 function bindShowMore() {
